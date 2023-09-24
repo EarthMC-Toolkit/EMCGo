@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const REQ_DOMAIN string = "https://earthmc.net"
+const REQ_DOMAIN  = "https://earthmc.net"
 const REQ_TIMEOUT = 6 * time.Second
 
 func SendRequest(endpoint string, skipCache bool) ([]byte, error) {
@@ -18,11 +18,7 @@ func SendRequest(endpoint string, skipCache bool) ([]byte, error) {
 	}
 
 	url := fmt.Sprintf("%s%s", REQ_DOMAIN, endpoint)
-	client := http.Client{
-		Timeout: REQ_TIMEOUT,
-	}
-
-	//fmt.Println("Request sent to: " + endpoint)
+	client := http.Client{ Timeout: REQ_TIMEOUT }
 
 	response, err := client.Get(url)
 	if err != nil {

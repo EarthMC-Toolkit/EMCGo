@@ -28,12 +28,12 @@ type RawTownCoords struct {
 }
 
 type RawTownRanks struct {
-	Councillor		[]string 	`json:"Councillor,omitempty"`
-	Builder			[]string 	`json:"Builder,omitempty"`
-	Recruiter		[]string 	`json:"Recruiter,omitempty"`
-	Police			[]string 	`json:"Police,omitempty"`
-	TaxExempt		[]string 	`json:"Tax-exempt,omitempty"`
-	Treasurer		[]string 	`json:"Treasurer,omitempty"`
+	Councillor		*[]string 	`json:"Councillor,omitempty"`
+	Builder			*[]string 	`json:"Builder,omitempty"`
+	Recruiter		*[]string 	`json:"Recruiter,omitempty"`
+	Police			*[]string 	`json:"Police,omitempty"`
+	TaxExempt		*[]string 	`json:"Tax-exempt,omitempty"`
+	Treasurer		*[]string 	`json:"Treasurer,omitempty"`
 }
 
 // TODO: Implement this
@@ -48,7 +48,7 @@ type RawTown struct {
 	Board 			string			`json:"board"`
 	Founder 		string			`json:"founder"`
 	HexColor 		string			`json:"mapColorHexCode"`
-	Nation 			string			`json:"nation,omitempty"`
+	Nation 			*string			`json:"nation,omitempty"`
 	Residents		[]string 		`json:"residents"`
 	Timestamps		Timestamps 		`json:"timestamps"`
 	Status			RawTownStatus	`json:"status"`

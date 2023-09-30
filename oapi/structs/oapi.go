@@ -38,7 +38,7 @@ type RawTownRanks struct {
 
 // TODO: Implement this
 type RawTownPerms struct {
-
+	
 }
 
 type RawTown struct {

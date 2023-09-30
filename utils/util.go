@@ -47,7 +47,7 @@ type EntityAccess interface {
 }
 
 type Entity struct {
-	Name 	string
+	Name	string
 }
 
 func (e Entity) GetName() string {

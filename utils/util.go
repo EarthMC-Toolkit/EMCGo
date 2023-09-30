@@ -43,7 +43,7 @@ func GetFieldValue(item interface{}, key string) string {
 }
 
 type EntityAccess interface {
-	GetName() string
+	GetName()	string
 }
 
 type Entity struct {

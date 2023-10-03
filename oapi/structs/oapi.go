@@ -24,7 +24,12 @@ type RawTownStats struct {
 
 type RawTownCoords struct {
 	Home 			[]string	`json:"home"`
-	Spawn 			any 		`json:"spawn"`
+	Spawn 			struct {
+		World		string
+		Pitch		int32
+		Yaw			int32
+		Location
+	} `json:"spawn"`
 }
 
 type RawTownRanks struct {
@@ -36,9 +41,23 @@ type RawTownRanks struct {
 	Treasurer		*[]string 	`json:"Treasurer,omitempty"`
 }
 
-// TODO: Implement this
+type RawFlagPerms struct {
+	Pvp 			bool		`json:"pvp"`
+	Explosions 		bool		`json:"explosion"`
+	Fire 			bool		`json:"fire"`
+	Mobs 			bool		`json:"mobs"`
+}
+
+type RawRnaoPerms struct {
+	Build			[]bool		`json:"buildPerms"`
+	Destroy			[]bool		`json:"destroyPerms"`
+	Switch			[]bool		`json:"switchPerms"`
+	ItemUse			[]bool		`json:"itemUsePerms"`
+}
+
 type RawTownPerms struct {
-	
+	Flags			RawFlagPerms	`json:"flagPerms"`
+	Rnao			RawRnaoPerms	`json:"rnaoPerms"`
 }
 
 type RawTown struct {

@@ -4,15 +4,33 @@ import (
 	"math"
 	"math/rand"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
 	lo "github.com/samber/lo"
+	"github.com/sanity-io/litter"
 )
 
 var alphabet []rune = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 var alphabetLen = len(alphabet)
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+func Prettify(i interface{}) string {
+	litter.Config.StripPackageNames = true
+	return litter.Sdump(i)
+}
+
+func HexToInt(hex string) int {
+	str := strings.Replace(hex, "0x", "", -1)
+	output, _ := strconv.ParseUint(str, 16, 32)
+
+	return int(output)
+}
+
+func FormatTimestamp(unixTs float64) string {
+	return strconv.FormatFloat(unixTs / 1000, 'f', 0, 64)
+}
 
 func RandomString(length int) string {
 	var sb strings.Builder
@@ -47,7 +65,7 @@ type EntityAccess interface {
 }
 
 type Entity struct {
-	Name	string
+	Name		string
 }
 
 func (e Entity) GetName() string {

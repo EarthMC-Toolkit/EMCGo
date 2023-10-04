@@ -2,7 +2,7 @@ package towns
 
 import (
 	"emcgo/utils"
-	"emcgo/oapi/structs"
+	"emcgo/structs"
 	"fmt"
 )
 

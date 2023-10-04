@@ -1,9 +1,9 @@
 package structs
 
 type Timestamps struct {
-	Registered		float64
-	LastOnline		*float64
-	JoinedNationAt	*float64
+	Registered		float64		`json:"registered"`
+	LastOnline		*float64	`json:"lastOnline"`
+	JoinedNationAt	*float64	`json:"joinedNationAt"`
 }
 
 type RawTownStatus struct {
@@ -24,10 +24,10 @@ type RawTownStats struct {
 
 type RawTownCoords struct {
 	Home 			[]string	`json:"home"`
-	Spawn 			struct {
-		World		string
-		Pitch		int32
-		Yaw			int32
+	Spawn 			struct {	
+		World		string		`json:"world"`
+		Pitch		int32		`json:"pitch"`
+		Yaw			int32		`json:"yaw"`
 		Location
 	} `json:"spawn"`
 }

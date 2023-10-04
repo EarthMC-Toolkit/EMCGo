@@ -25,10 +25,8 @@ func SendRequest(endpoint string, skipCache bool) ([]byte, error) {
 		return nil, err
 	}
 
-	body, _ := io.ReadAll(response.Body)
 	defer response.Body.Close()
-
-	return body, nil
+	return io.ReadAll(response.Body)
 }
 
 func JsonRequest[T any](endpoint string, skipCache bool) (T, error) {
@@ -40,6 +38,5 @@ func JsonRequest[T any](endpoint string, skipCache bool) (T, error) {
 	}
 
 	json.Unmarshal([]byte(res), &data)
-
 	return data, nil
 }

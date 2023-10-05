@@ -2,6 +2,7 @@ package utils
 
 import (
 	"emcgo/structs"
+	"fmt"
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
@@ -9,13 +10,14 @@ import (
 )
 
 var policy = bluemonday.StrictPolicy()
-func ParseTowns(areas map[string]structs.MapArea) []structs.MapArea {
-	var townsArray []structs.MapArea
+func ParseTowns(areas map[string]structs.MapArea) []structs.Town {
+	var townsArray []structs.Town
+	var parsedTown structs.Town
 
     townData := lo.Values(areas)
-    len := len(townData)
+    townAmt := len(townData)
 
-	for i := 0; i < len; i++ {
+	for i := 0; i < townAmt; i++ {
 		town := townData[i]
 		rawinfo := strings.Split(town.Desc, "<br />")
         info := lo.Map(rawinfo, func(s string, _ int) string {
@@ -26,8 +28,28 @@ func ParseTowns(areas map[string]structs.MapArea) []structs.MapArea {
 			continue
 		}
 
-		//fmt.Println(info)
-		townsArray = append(townsArray, town)
+		mayor := info[1][7:]
+		if town.Label != "Venice" {
+			continue
+		}
+
+		// let split: string | string[] = info[0].split(" (")
+		// split = (split[2] ?? split[1]).slice(0, -1)
+
+		residents := strings.Split(info[2][9:], ", ")
+		capital := AsBool(info[9][9:])
+
+		parsedTown = structs.Town{
+			Name: CleanString(town.Label),
+			Mayor: mayor,
+			Area: CalcArea(town.X, town.Z, len(town.X), 256),
+			Residents: residents,
+			Flags: structs.TownFlags{
+				Capital: &capital,
+			},
+		}
+
+		townsArray = append(townsArray, parsedTown)
 	}
 
 	return townsArray

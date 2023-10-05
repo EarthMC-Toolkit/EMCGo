@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -15,6 +16,37 @@ import (
 var alphabet []rune = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 var alphabetLen = len(alphabet)
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+func AsBool(v string) bool {
+	if strings.ToLower(v) == "true" {
+		return true
+	}
+
+	return false
+}
+
+func CalcArea(X, Z []float64, numPoints int, divisor float64) int {
+	var area float64 = 0 
+	j := numPoints - 1
+
+    for i := 0; i < numPoints; i++ { 
+        area += (X[j] + X[i]) * (Z[j] - Z[i]) 
+        j = i
+    }
+
+    return int(math.Abs(float64(area / 2)) / divisor)
+}
+
+func CleanString(str string) string {
+	re := regexp.MustCompile(`((&#34)|(&\w[a-z0-9].|&[0-9kmnola-z]));`)
+
+	cleaned := re.ReplaceAllString(str, "")
+
+	cleaned = strings.ReplaceAll(str, "&quot;", "\"")
+	cleaned = strings.ReplaceAll(str, "&#039;", "\"")
+	
+	return cleaned
+}
 
 func Prettify(i interface{}) string {
 	litter.Config.StripPackageNames = true

@@ -13,5 +13,5 @@ func TestParsedTowns(t *testing.T) {
 	mapRes, _ := utils.JsonRequest[structs.MapResponse](mapEndpoint, false)
 	parsed := utils.ParseTowns(mapRes.Sets.Towny.Areas)
 
-	fmt.Println(parsed[1].Desc)
+	fmt.Println(utils.Prettify(parsed[0]))
 }

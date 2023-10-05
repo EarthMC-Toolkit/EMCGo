@@ -31,8 +31,8 @@ type Markerset struct {
 
 type MapArea struct {
     Label 			string			`json:"label"`
-    X 				[]int32			`json:"x"`
-    Z 				[]int32			`json:"z"`
+    X 				[]float64       `json:"x"`
+    Z 				[]float64			`json:"z"`
     FillColour		string			`json:"fillcolor"`
 	FillOpacity		float32			`json:"fillopacity"`
 	OutlineColour 	string			`json:"color"`

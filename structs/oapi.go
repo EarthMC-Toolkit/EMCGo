@@ -2,8 +2,8 @@ package structs
 
 type Timestamps struct {
 	Registered		float64		`json:"registered"`
-	LastOnline		*float64	`json:"lastOnline"`
-	JoinedNationAt	*float64	`json:"joinedNationAt"`
+	LastOnline		*float64	`json:"lastOnline,omitempty"`
+	JoinedNationAt	*float64	`json:"joinedNationAt,omitempty"`
 }
 
 type RawTownStatus struct {
@@ -23,6 +23,7 @@ type RawTownStats struct {
 }
 
 type RawTownCoords struct {
+	Bounds			TownBounds 	`json:"townBlocks"`	
 	Home 			[]string	`json:"home"`
 	Spawn 			struct {	
 		World		string		`json:"world"`
@@ -74,6 +75,7 @@ type RawTown struct {
 	Stats			RawTownStats	`json:"stats"`
 	Coordinates		RawTownCoords	`json:"coordinates"`
 	Ranks			RawTownRanks	`json:"ranks"`
-	Trusted			[]string		`json:"trusted"`
-	Perms			any				`json:"perms"`
+	Trusted			*[]string		`json:"trusted,omitempty"`
+	Outlaws			*[]string		`json:"outlaws,omitempty"`
+	Perms			RawTownPerms	`json:"perms"`
 }

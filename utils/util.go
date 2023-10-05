@@ -11,6 +11,7 @@ import (
 
 	lo "github.com/samber/lo"
 	"github.com/sanity-io/litter"
+	"golang.org/x/exp/slices"
 )
 
 var alphabet []rune = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
@@ -23,6 +24,20 @@ func AsBool(v string) bool {
 	}
 
 	return false
+}
+
+func FloatsToInts(arr []float64) []int {
+	return lo.Map(arr, func (num float64, _ int) int {
+		return int(num)
+	})
+}
+
+func Range(args []float64) int {
+	if len(args) == 0 {
+		return 0 // Handle the case when the input slice is empty
+	}
+
+	return int((slices.Max(args) + slices.Min(args)) / 2)
 }
 
 func CalcArea(X, Z []float64, numPoints int, divisor float64) int {

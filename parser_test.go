@@ -11,7 +11,7 @@ const mapEndpoint = "/map/aurora/standalone/MySQL_markers.php?marker=_markers_/m
 
 func TestParsedTowns(t *testing.T) {
 	mapRes, _ := utils.JsonRequest[structs.MapResponse](mapEndpoint, false)
-	parsed := utils.ParseTowns(mapRes.Sets.Towny.Areas)
+	parsed, _ := utils.ParseTowns(mapRes.Sets.Towny)
 
 	fmt.Println(utils.Prettify(parsed[0]))
 }

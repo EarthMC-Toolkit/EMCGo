@@ -64,6 +64,7 @@ type TownFlags struct {
 	Explosions 		*bool
 	Fire 			*bool
 	Mobs 			*bool
+	Public 			*bool
 	Capital			*bool
 }
 

@@ -23,16 +23,27 @@ type MapSets struct {
 }
 
 type Markerset struct {
-    Areas 			map[string]MapArea	`json:"areas"`
-    Label 			string			    `json:"label"`
-    Markers 		any				    `json:"markers"`
-    Lines			any				    `json:"lines"`
+    Areas 			map[string]MapArea	    `json:"areas"`
+    Markers 		map[string]HomeMarker	`json:"markers"`
+    Lines			any				        `json:"lines"`
+    Label 			string			        `json:"label"`
+}
+
+type HomeMarker struct {
+    Markup          bool            `json:"markup"`
+    X               float64         `json:"x"`
+    Y               float64         `json:"y"`
+    Z               float64         `json:"z"`
+    Icon            string          `json:"icon"`
+    Dim             string          `json:"dim"`
+    Label           string          `json:"label"`
+    Desc            string          `json:"desc"` 
 }
 
 type MapArea struct {
     Label 			string			`json:"label"`
     X 				[]float64       `json:"x"`
-    Z 				[]float64			`json:"z"`
+    Z 				[]float64		`json:"z"`
     FillColour		string			`json:"fillcolor"`
 	FillOpacity		float32			`json:"fillopacity"`
 	OutlineColour 	string			`json:"color"`

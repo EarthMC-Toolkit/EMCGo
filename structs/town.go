@@ -1,48 +1,50 @@
 package structs
 
+import "emcgo/utils"
+
 type OAPITown struct {
-	Name 			string
-	UUID 			*string
-	Founder 		*string
-	Mayor 			string
-	Nation 			string
-	Board 			*string
-	Area			int32
-	Bounds			TownBounds
-	X				int32
-	Z				int32
-	Residents		[]string
-	Timestamps		*Timestamps
-	Balance			*int32
-	Trusted			*[]string
-	Outlaws			*[]string
-	Perms			*any
-	Wiki			*string
-	ColourCodes 	TownColours
+	Name        string
+	UUID        *string
+	Founder     *string
+	Mayor       string
+	Nation      string
+	Board       *string
+	Area        int32
+	Bounds      TownBounds
+	X           int32
+	Z           int32
+	Residents   []string
+	Timestamps  *Timestamps
+	Balance     *int32
+	Trusted     *[]string
+	Outlaws     *[]string
+	Perms       *any
+	Wiki        *string
+	ColourCodes TownColours
 }
 
 func (t OAPITown) GetName() string {
-    return t.Name
+	return t.Name
 }
 
 func (t OAPITown) GetMayor() string {
-    return t.Mayor
+	return t.Mayor
 }
 
 func (t OAPITown) GetNation() string {
-    return t.Nation
+	return t.Nation
 }
 
 func (t OAPITown) GetUUID() *string {
-    return t.UUID
+	return t.UUID
 }
 
 func (t OAPITown) GetBoard() *string {
-    return t.Board
+	return t.Board
 }
 
 func (t OAPITown) GetBalance() *int32 {
-    return t.Balance
+	return t.Balance
 }
 
 func (t OAPITown) GetFounder() *string {
@@ -50,37 +52,45 @@ func (t OAPITown) GetFounder() *string {
 }
 
 type TownBounds struct {
-	X	[]int
-	Z	[]int
+	X []int
+	Z []int
 }
 
 type TownColours struct {
-	Fill		string
-	Outline		string
+	Fill    string
+	Outline string
+}
+
+func (colours TownColours) GetInts() (int, int) {
+	fill := utils.HexToInt(colours.Fill)
+	outline := utils.HexToInt(colours.Outline)
+
+	return fill, outline
 }
 
 type TownFlags struct {
-	Pvp 			*bool
-	Explosions 		*bool
-	Fire 			*bool
-	Mobs 			*bool
-	Public 			*bool
-	Capital			*bool
+	Pvp        *bool
+	Explosions *bool
+	Fire       *bool
+	Mobs       *bool
+	Public     *bool
+	Capital    *bool
 }
 
 type Town struct {
-	Name 			string
-	Mayor 			string
-	Nation 			string
-	Area			int
-	Bounds			TownBounds
-	X				int
-	Z				int
-	Residents		[]string
-	Flags			TownFlags
-	ColourCodes 	TownColours
+	Name        string
+	Mayor       string
+	Nation      string
+	Area        int
+	Bounds      TownBounds
+	X           int
+	Z           int
+	Residents   []string
+	Flags       TownFlags
+	ColourCodes TownColours
+	Wiki        string
 }
 
 func (t *Town) OnlineResidents() {
-	
+
 }

@@ -115,3 +115,51 @@ func ParseTown(town MapArea, markers map[string]HomeMarker) (Town, bool) {
 		Wiki: wiki,
 	}, false
 }
+
+func ParseNations(towns map[string]Town) map[string]Nation {
+	nations := make(map[string]Nation)
+
+	for _, town := range towns {
+		nationName := town.Nation
+
+		if nationName == "" {
+			continue
+		}
+
+		nations[nationName] = ParseNation(town, nations, nationName)
+	}
+
+	return nations
+}
+
+func ParseNation(town Town, nations map[string]Nation, name string) Nation {
+	var nation Nation
+
+	_, exists := nations[name]
+	if !exists {
+		nation = Nation{
+			Name: name,
+		}
+	}
+
+	nation.Area += town.Area
+
+	if nation.Name == name {
+		nation.Towns = append(nation.Towns, town.Name)
+	}
+	
+	if *town.Flags.Capital {
+		if town.Wiki != "" {
+			nation.Wiki = &town.Wiki
+		}
+
+		nation.Leader = town.Mayor
+		nation.Capital = NationCapital{
+			Name: town.Name,
+			X: town.X,
+			Z: town.Z,
+		}
+	}
+
+	return nation
+}

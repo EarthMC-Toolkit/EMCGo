@@ -11,31 +11,38 @@ import (
 	"github.com/samber/lo"
 )
 
-var policy = bluemonday.StrictPolicy()
+var policy = bluemonday.NewPolicy()
 
 func ParseTowns(markerset Markerset) (map[string]Town, error) {
+	//#region Handle bad markerset + init vars
 	if markerset.Areas == nil {
 		return nil, errors.New("No areas found on markerset!")
 	}
 
 	towns := make(map[string]Town)
+    areas := lo.Values(markerset.Areas)
+    townAmt := len(areas)
 
-    townData := lo.Values(markerset.Areas)
-    townAmt := len(townData)
+	policy.AllowElements("a")
+	policy.AllowAttrs("href").OnElements("a")
+	//#endregion
 
+	//#region Loop over areas and parse into Towns.
 	for i := 0; i < townAmt; i++ {
-		town := townData[i]
+		town := areas[i]
 		parsed, skip := ParseTown(town, markerset.Markers)
 
 		if skip == false {
 			towns[town.Label] = parsed
 		}
 	}
+	//#endregion
 
 	return towns, nil
 }
 
 func ParseTown(town MapArea, markers map[string]HomeMarker) (Town, bool) {
+	//#region Parse area description into vars.
 	rawinfo := strings.Split(town.Desc, "<br />")
 	info := lo.Map(rawinfo, func(s string, _ int) string {
 		return policy.Sanitize(s)
@@ -71,22 +78,26 @@ func ParseTown(town MapArea, markers map[string]HomeMarker) (Town, bool) {
 	explosions := AsBool(info[7][11:])
 	fire := AsBool(info[8][6:])
 	capital := AsBool(info[9][9:])
+	//#endregion
 
+	//#region Parse nation name (and wiki if it exists).
 	var nation = label
 	var wiki string
 
-	// Check if we have a wiki
 	if (strings.Contains(label, "href")) {
 		index := strings.Index(label, ">") + 1
 		nation = label[index:]
 		nation = strings.ReplaceAll(nation, "</a>", "")
 
 		label = strings.ReplaceAll(label, "<a href=\"", "")
+
 		if capital == true {
 			wiki = label[:strings.Index(label, "\"")]
 		}
 	}
+	//#endregion
 
+	//#region Build and return new Town.
 	home := lo.Ternary(nation != "", markers[fmt.Sprintf("%s__home", town.Label)], HomeMarker{})
 	return Town{
 		Name: CleanString(town.Label),
@@ -114,52 +125,53 @@ func ParseTown(town MapArea, markers map[string]HomeMarker) (Town, bool) {
 		},
 		Wiki: wiki,
 	}, false
+	//#endregion
 }
 
 func ParseNations(towns map[string]Town) map[string]Nation {
 	nations := make(map[string]Nation)
 
 	for _, town := range towns {
-		nationName := town.Nation
-
-		if nationName == "" {
+		name := town.Nation
+		if name == "" {
 			continue
 		}
 
-		nations[nationName] = ParseNation(town, nations, nationName)
+		//#region Create Nation if doesn't exist already.
+		nation, exists := nations[name]
+		if !exists {
+			nation = Nation{
+				Name: name,
+			}
+		}
+		//#endregion
+
+		//#region Values to add/set regardless of existence.
+		nation.Area += town.Area
+
+		residents := append(nation.Residents, town.Residents...)
+		nation.Residents = lo.Uniq(residents)
+
+		if nation.Name == name {
+			nation.Towns = append(nation.Towns, town.Name)
+		}
+
+		if *town.Flags.Capital {
+			if town.Wiki != "" {
+				nation.Wiki = town.Wiki
+			}
+
+			nation.Leader = town.Mayor
+			nation.Capital = NationCapital{
+				Name: town.Name,
+				X: town.X,
+				Z: town.Z,
+			}
+		}
+		//#endregion
+
+		nations[name] = nation
 	}
 
 	return nations
-}
-
-func ParseNation(town Town, nations map[string]Nation, name string) Nation {
-	var nation Nation
-
-	_, exists := nations[name]
-	if !exists {
-		nation = Nation{
-			Name: name,
-		}
-	}
-
-	nation.Area += town.Area
-
-	if nation.Name == name {
-		nation.Towns = append(nation.Towns, town.Name)
-	}
-	
-	if *town.Flags.Capital {
-		if town.Wiki != "" {
-			nation.Wiki = &town.Wiki
-		}
-
-		nation.Leader = town.Mayor
-		nation.Capital = NationCapital{
-			Name: town.Name,
-			X: town.X,
-			Z: town.Z,
-		}
-	}
-
-	return nation
 }

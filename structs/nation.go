@@ -12,6 +12,6 @@ type Nation struct {
 	Towns      	[]string
 	Residents 	[]string
 	Area		int
-	Wiki		*string
+	Wiki		string
 	Capital		NationCapital
 }

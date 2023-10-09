@@ -6,8 +6,6 @@ import (
 	"emcgo/utils"
 	"fmt"
 	"testing"
-
-	//"golang.org/x/exp/maps"
 )
 
 const mapEndpoint = "/map/aurora/standalone/MySQL_markers.php?marker=_markers_/marker_earth.json"
@@ -18,5 +16,5 @@ func TestParsedTowns(t *testing.T) {
 	towns, _ := parser.ParseTowns(mapRes.Sets.Towny)
 	nations := parser.ParseNations(towns)
 
-	fmt.Println(utils.Prettify(nations["Zanzibar"]))
+	fmt.Println(utils.Prettify(nations["Venice"]))
 }

@@ -1,4 +1,4 @@
-package towns
+package oapi
 
 import (
 	"emcgo/utils"
@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-func Get(name string) (structs.OAPITown, error) {
-	town, err := utils.JsonRequest[structs.RawTown](fmt.Sprintf("/towns/%s", name), false)
+func Town(name string) (structs.OAPITown, error) {
+	town, err := utils.OAPIJsonRequest[structs.RawTown](fmt.Sprintf("/towns/%s", name), false)
 
 	if err != nil { 
 		return structs.OAPITown{}, err

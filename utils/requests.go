@@ -8,16 +8,9 @@ import (
 	"time"
 )
 
-const REQ_DOMAIN  = "https://earthmc.net"
 const REQ_TIMEOUT = 6 * time.Second
 
-func SendRequest(endpoint string, skipCache bool) ([]byte, error) {
-	if skipCache == true {
-		randStr := RandomString(12)
-		endpoint += randStr
-	}
-
-	url := fmt.Sprintf("%s%s", REQ_DOMAIN, endpoint)
+func Request(url string) ([]byte, error) {
 	client := http.Client{ Timeout: REQ_TIMEOUT }
 
 	response, err := client.Get(url)
@@ -29,9 +22,12 @@ func SendRequest(endpoint string, skipCache bool) ([]byte, error) {
 	return io.ReadAll(response.Body)
 }
 
-func JsonRequest[T any](endpoint string, skipCache bool) (T, error) {
+func JsonRequest[T interface{}](url string) (T, error) {
+	return toJSON[T](Request(url))
+}
+
+func toJSON[T interface{}](res []byte, err error) (T, error) {
 	var data T
-	res, err := SendRequest(endpoint, skipCache)
 
 	if err != nil {
 		return data, err
@@ -39,4 +35,18 @@ func JsonRequest[T any](endpoint string, skipCache bool) (T, error) {
 
 	json.Unmarshal([]byte(res), &data)
 	return data, nil
+}
+
+func OAPIRequest(endpoint string, skipCache bool) ([]byte, error) {
+	if skipCache == true {
+		randStr := RandomString(12)
+		endpoint += randStr
+	}
+
+	url := fmt.Sprintf("%s%s", "https://api.earthmc.net/v2/aurora", endpoint)
+	return Request(url)
+}
+
+func OAPIJsonRequest[T interface{}](endpoint string, skipCache bool) (T, error) {
+	return toJSON[T](OAPIRequest(endpoint, skipCache))
 }

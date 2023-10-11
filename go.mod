@@ -14,5 +14,5 @@ require (
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.25
 	github.com/sanity-io/litter v1.5.5
-	golang.org/x/net v0.15.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 )

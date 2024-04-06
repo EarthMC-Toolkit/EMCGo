@@ -1,4 +1,4 @@
-module emcgo
+module github.com/earthmc-toolkit/earthmcgo
 
 go 1.21.1
 

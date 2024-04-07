@@ -82,7 +82,7 @@ func ParseTown(town structs.MapArea, markers map[string]structs.HomeMarker) (str
 
 	//#region Parse nation name (and wiki if it exists).
 	var nation = label
-	var wiki string
+	var wiki *string = nil
 
 	if strings.Contains(label, "href") {
 		index := strings.Index(label, ">") + 1
@@ -92,7 +92,8 @@ func ParseTown(town structs.MapArea, markers map[string]structs.HomeMarker) (str
 		label = strings.ReplaceAll(label, "<a href=\"", "")
 
 		if capital {
-			wiki = label[:strings.Index(label, "\"")]
+			wikiStr := label[:strings.Index(label, "\"")]
+			wiki = &wikiStr
 		}
 	}
 	//#endregion
@@ -123,7 +124,7 @@ func ParseTown(town structs.MapArea, markers map[string]structs.HomeMarker) (str
 			Fill:    town.FillColour,
 			Outline: town.OutlineColour,
 		},
-		Wiki: &wiki,
+		Wiki: wiki,
 	}, false
 	//#endregion
 }

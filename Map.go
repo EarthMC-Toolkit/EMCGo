@@ -1,7 +1,7 @@
 package Map
 
 import (
-	"emcgo/api"
+	"github.com/earthmc-toolkit/emcgo/api"
 )
 
 var Aurora = createMap("aurora")
@@ -20,8 +20,8 @@ func createMap(name string) Map {
 }
 
 type Map struct {
-	Name    		string
-	Nations 		api.Nations
-	Towns   		api.Towns
-	Players			api.Players
+	Name    string
+	Nations api.Nations
+	Towns   api.Towns
+	Players api.Players
 }

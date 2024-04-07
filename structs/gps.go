@@ -1,7 +1,7 @@
 package structs
 
 type Location struct {
-	X	string
-	Y	*string
-	Z	string
+	X string  `json:"x"`
+	Y *string `json:"y"`
+	Z string  `json:"z"`
 }

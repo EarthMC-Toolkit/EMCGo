@@ -1,6 +1,6 @@
 package structs
 
-import "emcgo/utils"
+import "github.com/earthmc-toolkit/emcgo/utils"
 
 type OAPITown struct {
 	Name        string
@@ -9,46 +9,18 @@ type OAPITown struct {
 	Mayor       string
 	Nation      string
 	Board       *string
-	Area        int32
+	Area        uint
 	Bounds      TownBounds
-	X           int32
-	Z           int32
+	X           int
+	Z           int
 	Residents   []string
 	Timestamps  *Timestamps
-	Balance     *int32
+	Balance     *uint
 	Trusted     *[]string
 	Outlaws     *[]string
 	Perms       *any
 	Wiki        *string
 	ColourCodes TownColours
-}
-
-func (t OAPITown) GetName() string {
-	return t.Name
-}
-
-func (t OAPITown) GetMayor() string {
-	return t.Mayor
-}
-
-func (t OAPITown) GetNation() string {
-	return t.Nation
-}
-
-func (t OAPITown) GetUUID() *string {
-	return t.UUID
-}
-
-func (t OAPITown) GetBoard() *string {
-	return t.Board
-}
-
-func (t OAPITown) GetBalance() *int32 {
-	return t.Balance
-}
-
-func (t OAPITown) GetFounder() *string {
-	return t.Founder
 }
 
 type TownBounds struct {
@@ -61,7 +33,7 @@ type TownColours struct {
 	Outline string
 }
 
-func (colours TownColours) GetInts() (int, int) {
+func (colours TownColours) AsInts() (int, int) {
 	fill := utils.HexToInt(colours.Fill)
 	outline := utils.HexToInt(colours.Outline)
 
@@ -81,14 +53,14 @@ type Town struct {
 	Name        string
 	Mayor       string
 	Nation      string
-	Area        int
+	Area        uint
 	Bounds      TownBounds
 	X           int
 	Z           int
 	Residents   []string
 	Flags       TownFlags
 	ColourCodes TownColours
-	Wiki        string
+	Wiki        *string
 }
 
 func (t *Town) OnlineResidents() {

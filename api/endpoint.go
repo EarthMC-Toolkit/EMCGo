@@ -1,8 +1,8 @@
 package api
 
 import (
-	"emcgo/structs"
-	"emcgo/utils"
+	"github.com/earthmc-toolkit/emcgo/structs"
+	"github.com/earthmc-toolkit/emcgo/utils"
 )
 
 const DOMAIN = "https://earthmc.net/map/"

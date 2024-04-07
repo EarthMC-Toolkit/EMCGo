@@ -7,7 +7,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"time"
 
 	lo "github.com/samber/lo"
 	"github.com/sanity-io/litter"
@@ -16,18 +15,15 @@ import (
 
 var alphabet []rune = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 var alphabetLen = len(alphabet)
-var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+//var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func AsBool(v string) bool {
-	if strings.ToLower(v) == "true" {
-		return true
-	}
-
-	return false
+	return strings.ToLower(v) == "true"
 }
 
 func FloatsToInts(arr []float64) []int {
-	return lo.Map(arr, func (num float64, _ int) int {
+	return lo.Map(arr, func(num float64, _ int) int {
 		return int(num)
 	})
 }
@@ -40,26 +36,26 @@ func Range(args []float64) int {
 	return int((slices.Max(args) + slices.Min(args)) / 2)
 }
 
-func CalcArea(X, Z []float64, numPoints int, divisor float64) int {
-	var area float64 = 0 
+func CalcArea(X, Z []float64, numPoints uint16, divisor float64) uint {
+	var area float64 = 0
 	j := numPoints - 1
 
-    for i := 0; i < numPoints; i++ { 
-        area += (X[j] + X[i]) * (Z[j] - Z[i]) 
-        j = i
-    }
+	i := uint16(0)
+	for i = 0; i < numPoints; i++ {
+		area += (X[j] + X[i]) * (Z[j] - Z[i])
+		j = i
+	}
 
-    return int(math.Abs(float64(area / 2)) / divisor)
+	return uint(math.Abs(float64(area/2)) / divisor)
 }
 
 func CleanString(str string) string {
 	re := regexp.MustCompile(`((&#34)|(&\w[a-z0-9].|&[0-9kmnola-z]));`)
 
 	cleaned := re.ReplaceAllString(str, "")
+	cleaned = strings.ReplaceAll(cleaned, "&quot;", "\"")
+	cleaned = strings.ReplaceAll(cleaned, "&#039;", "\"")
 
-	cleaned = strings.ReplaceAll(str, "&quot;", "\"")
-	cleaned = strings.ReplaceAll(str, "&#039;", "\"")
-	
 	return cleaned
 }
 
@@ -76,7 +72,7 @@ func HexToInt(hex string) int {
 }
 
 func FormatTimestamp(unixTs float64) string {
-	return strconv.FormatFloat(unixTs / 1000, 'f', 0, 64)
+	return strconv.FormatFloat(unixTs/1000, 'f', 0, 64)
 }
 
 func RandomString(length int) string {
@@ -91,28 +87,28 @@ func RandomString(length int) string {
 }
 
 func Hypot(num, input, radius int) bool {
-    return num <= (input + radius) && num >= (input - radius)
+	return num <= (input+radius) && num >= (input-radius)
 }
 
 func Manhattan(x1, z1, x2, z2 float64) float64 {
-   return math.Abs(x2 - x1) + math.Abs(z2 - z1)
+	return math.Abs(x2-x1) + math.Abs(z2-z1)
 }
 
 func Euclidean(x1, z1, x2, z2 float64) float64 {
-    return math.Sqrt(math.Pow(x2 - x1, 2) + math.Pow(z2 - z1, 2))
+	return math.Sqrt(math.Pow(x2-x1, 2) + math.Pow(z2-z1, 2))
 }
 
 func GetFieldValue(item interface{}, key string) string {
-    field := reflect.ValueOf(item).FieldByName(key)
-    return lo.Ternary(field.IsValid(), field.String(), "")
+	field := reflect.ValueOf(item).FieldByName(key)
+	return lo.Ternary(field.IsValid(), field.String(), "")
 }
 
 type EntityAccess interface {
-	GetName()	string
+	GetName() string
 }
 
 type Entity struct {
-	Name		string
+	Name string
 }
 
 func (e Entity) GetName() string {

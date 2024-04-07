@@ -1,3 +1,4 @@
 package api
 
-type Players struct {}
+type Players struct {
+}

@@ -1,15 +1,15 @@
 package api
 
 import (
-	"emcgo/api/parser"
-	"emcgo/structs"
 	"errors"
+	"github.com/earthmc-toolkit/emcgo/api/parser"
+	"github.com/earthmc-toolkit/emcgo/structs"
 
 	"github.com/samber/lo"
 )
 
 type Nations struct {
-	MapName		string
+	MapName string
 }
 
 func (nations *Nations) All() map[string]structs.Nation {
@@ -21,5 +21,5 @@ func (nations *Nations) All() map[string]structs.Nation {
 
 func (nations *Nations) Get(name string) (structs.Nation, error) {
 	nation, exists := nations.All()[name]
-	return nation, lo.Ternary(exists == true, nil, errors.New("Could not find nation with name: " + name))
+	return nation, lo.Ternary(exists, nil, errors.New("Could not find nation with name: "+name))
 }

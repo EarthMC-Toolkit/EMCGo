@@ -11,7 +11,7 @@ import (
 const REQ_TIMEOUT = 6 * time.Second
 
 func Request(url string) ([]byte, error) {
-	client := http.Client{ Timeout: REQ_TIMEOUT }
+	client := http.Client{Timeout: REQ_TIMEOUT}
 
 	response, err := client.Get(url)
 	if err != nil {
@@ -38,7 +38,7 @@ func toJSON[T interface{}](res []byte, err error) (T, error) {
 }
 
 func OAPIRequest(endpoint string, skipCache bool) ([]byte, error) {
-	if skipCache == true {
+	if skipCache {
 		randStr := RandomString(12)
 		endpoint += randStr
 	}

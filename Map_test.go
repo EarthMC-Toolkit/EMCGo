@@ -1,9 +1,9 @@
 package Map
 
 import (
-	"github.com/earthmc-toolkit/earthmc-go/utils"
-	"github.com/earthmc-toolkit/earthmc-go/oapi"
 	"fmt"
+	"github.com/earthmc-toolkit/emcgo/oapi"
+	"github.com/earthmc-toolkit/emcgo/utils"
 	"testing"
 )
 
